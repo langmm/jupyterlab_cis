@@ -64,10 +64,10 @@ docker run --name=cloud9 -itd -v $(pwd):/workspace -p 8080:8080 ndslabs/cloud9-a
 
 You should then be able to browser to `localhost:8080` in your browser to access your Cloud9 IDE.
 
-NOTE 1: You should be prompted for the `USERNAME` / `PASSWORD` you chose prior.
+NOTE: You should be prompted for the `USERNAME` / `PASSWORD` you chose prior.
 
-NOTE 2: This authentication method is INSECURE over HTTP. Use HTTPS if you want
-to keep your credentials safe.
+**WARNING: This authentication method is INSECURE over HTTP. Use HTTPS if you want
+to keep your credentials safe.**
 
 # Without Docker
 Although running in Docker is recommended, it should still be possible to use 
@@ -76,7 +76,8 @@ the extension without it.
 ## Installation
 
 ```bash
-jupyter labextension install @jupyterlab/cis-extension
+git clone https://github.com/cropsinsilico/jupyterlab_cis && cd jupyterlab_cis/
+jupyter labextension install
 ```
 
 ## Development
