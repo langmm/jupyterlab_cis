@@ -9,6 +9,8 @@ Show a Crops in Silico Model Composer in a JupyterLab panel
 * Docker (optional)
 
 # With Docker
+Building and running with Docker is recommended.
+
 ## Build
 Build the Docker image:
 ```bash
