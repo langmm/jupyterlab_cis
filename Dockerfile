@@ -21,8 +21,8 @@ COPY package.json .
 RUN npm install
 
 # Copy in our extension source
-COPY src/* $SRCDIR/src/
-COPY style/* $SRCDIR/style/
+COPY src/* ./src/
+COPY style/* ./style/
 COPY tsconfig.json .
 
 # Perform TypeScript compile and install extension
@@ -32,3 +32,7 @@ RUN jupyter labextension install
 # Add documentation last
 COPY Dockerfile README.md ./
 #WORKDIR /home/jovyan
+
+# Enable nbgitpuller extension
+RUN pip install nbgitpuller && \
+    jupyter serverextension enable --py nbgitpuller --sys-prefix

@@ -1,24 +1,16 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "noImplicitAny": false,
-    "noEmitOnError": true,
-    "noUnusedLocals": true,
+    "lib": ["es2015", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es5",
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
     "outDir": "./lib",
-    "lib": ["es5",
-      "es2015.core",
-      "es2015.promise",
-      "es2017.object",
-      "es2015.collection",
-      "dom"],
-    "jsx": "react"
+    "target": "es2015",
+    "strict": true,
+    "strictNullChecks": false,
+    "types": []
   },
-  "include": ["./src/*"],
-  "types": [
-    "./node_modules/@types",
-    "./node_modules/@jupyterlab/apputils/node_modules/@types"
-  ]
+  "include": ["src/*"]
 }

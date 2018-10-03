@@ -1,50 +1,40 @@
 {
-  "name": "@jupyterlab/cis-extension",
+  "name": "jupyterlab_cis",
   "version": "0.0.1",
-  "private": true,
-  "description": "Crops in Silico Model Composer JupyterLab Extension",
+  "description": "JupyterLab extension to support creating graphs for the Crops in Silico project.",
+  "author": "Mike Lambert",
   "keywords": [
     "jupyter",
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/jupyterlab/jupyterlab_cis.git",
+  "homepage": "https://github.com/cropsinsilico/jupyterlab_cis",
   "bugs": {
-    "url": "https://github.com/jupyterlab/jupyterlab_cis.git/issues"
+    "url": "https://github.com/cropsinsilico/jupyterlab_cis/issues"
   },
-  "license": "BSD-3-Clause",
-  "author": "Mike Lambert <lambert8@illinois.edu>",
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jupyterlab/jupyterlab_cis.git"
+  "license": "BSD-3-Clause",
+  "jupyterlab": {
+    "extension": true
   },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib",
-    "prepack": "npm run clean && npm run build",
-    "prettier": "prettier --write '{README,src/*,style/*}{.ts,.tsx,.js,.jsx,.css,.json,.md}'",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.18.4",
-    "@jupyterlab/apputils": "^0.18.4",
-    "@phosphor/coreutils": "^1.3.0",
-    "@phosphor/messaging": "^1.2.2",
-    "@phosphor/widgets": "^1.6.0",
-    "font-awesome": "^4.7.0",
-    "the-graph": "^0.12.0"
+    "@jupyterlab/application": "^0.18.0",
+    "@jupyterlab/docregistry": "^0.18.4",
+    "@jupyterlab/notebook": "^0.18.5"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
     "typescript": "~2.9.2"
-  },
-  "jupyterlab": {
-    "extension": true
   }
 }
