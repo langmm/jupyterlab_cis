@@ -30,5 +30,5 @@ RUN npm install -g typescript
 RUN jupyter labextension install
 
 # Add documentation last
-COPY Untitled.ipynb Dockerfile README.md ./
+COPY Dockerfile README.md ./
 #WORKDIR /home/jovyan

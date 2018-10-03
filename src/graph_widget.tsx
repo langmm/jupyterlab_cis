@@ -6,16 +6,8 @@ import * as ReactDOM from "react-dom";
 import * as TheGraph from "the-graph";
 import * as fbpGraph from "fbp-graph";
 
-export class CisGraphWidget extends Widget {
 
-    data: HTMLDivElement;
-    buttonBar: HTMLDivElement;
-    
-    randomBtn: HTMLButtonElement;
-    getBtn: HTMLButtonElement;
-    addnodeBtn: HTMLButtonElement;
-    addedgeBtn: HTMLButtonElement;
-    clearBtn: HTMLButtonElement;
+export class CisGraphWidget extends Widget {
     
     graph: any;
     library: any;
@@ -63,63 +55,27 @@ export class CisGraphWidget extends Widget {
             }
         };
         
-        debugger;
         this.graph = new fbpGraph.Graph();
         
         this.id = 'cis-graph-jupyterlab';
         this.title.label = 'CiS Model Composer';
         this.title.closable = true;
         this.addClass('jp-graphWidget');
-        
-        
-        this.data = document.createElement('div');
-        this.data.className = "the-graph-dark";
-        this.data.id = "jp-graph";
-        
-        let me = this;
-        
-        this.randomBtn = document.createElement('button');
-        this.randomBtn.id = "random";
-        this.randomBtn.innerHTML = 'Random';
-        this.randomBtn.onclick = function() { me.random(); };
-        this.getBtn = document.createElement('button');
-        this.getBtn.id = "get";
-        this.getBtn.innerHTML = 'Get';
-        this.getBtn.onclick = function() { me.get(); };
-        this.addedgeBtn = document.createElement('button');
-        this.addedgeBtn.id = "addedge";
-        this.addedgeBtn.innerHTML = 'Add Edge';
-        this.addedgeBtn.onclick = function(event) { me.addedge(event); };
-        this.addnodeBtn = document.createElement('button');
-        this.addnodeBtn.id = "addnode";
-        this.addnodeBtn.innerHTML = 'Add Node';
-        this.addnodeBtn.onclick = function() { me.addnode(); };
-        this.clearBtn = document.createElement('button');
-        this.clearBtn.id = "clear";
-        this.clearBtn.innerHTML = 'Clear';
-        this.clearBtn.onclick = function() { me.clear(); };
-        
-        
-        this.buttonBar = document.createElement('div');
-        this.buttonBar.id = 'button-bar';
-        this.buttonBar.style.position = 'absolute';
-        this.buttonBar.appendChild(this.randomBtn);
-        this.buttonBar.appendChild(this.getBtn);
-        this.buttonBar.appendChild(this.addedgeBtn);
-        this.buttonBar.appendChild(this.addnodeBtn);
-        this.buttonBar.appendChild(this.clearBtn);
-        
-        this.node.appendChild(this.data);
-        this.node.appendChild(this.buttonBar);
 
-/*
-            <div id="jp-graphviewer">
+// <h4 class="pull-left libraryHeader">Model Library</h4>
+                //<table>
+                //</table>
+        ReactDOM.render(<div id="jp-graphviewer">
+               
+        
                 <div id="editor">
                     <link rel="stylesheet" href="node_modules/the-graph/themes/the-graph-dark.css"/>
                     <link rel="stylesheet" href="node-modules/the-graph/themes/the-graph-light.css"/>
                     
                     <div id="jp-graph" className="the-graph-dark"></div>
                 </div>
+                
+                <i className="fa fa-fw fa-eye"></i>
             
                 <div id="button-bar">
                   <button id="random" onClick={this.random}>random graph</button>
@@ -128,14 +84,19 @@ export class CisGraphWidget extends Widget {
                   <button id="get" onClick={this.get}>get graph</button>
                   <button id="clear" onClick={this.clear}>clear</button>
                 </div>
-            </div>
-*/
+            </div>, this.node);
+            
+        /*ReactDOM.render(
+          <Graph
+            width={window.innerWidth}
+            height={window.innerHeight}
+          />,
+          this.node
+        );*/
     }
     
-    
-        
-      // Add node button
-    addnode() {
+    // Add node button
+    addnode = () => {
         var id = Math.round(Math.random()*100000).toString(36);
         var component = Math.random() > 0.5 ? 'basic' : 'tall';
         var metadata = {
@@ -147,19 +108,19 @@ export class CisGraphWidget extends Widget {
         return newNode;
     }
     
-    get() {
+    get = () => {
         
         var graphJSON = JSON.stringify(this.graph.toJSON(), null, 2);
         alert(graphJSON);
         //you can use the var graphJSON to save the graph definition in a file/database
     }
     
-    clear() {
+    clear = () => {
         this.graph = new fbpGraph.Graph();
         this.render();
     }
     
-    random() {
+    random = () => {
         this.graph.startTransaction('randomgraph');
         for (var i=0; i<20; i++) {
           var node = this.addnode();
@@ -169,7 +130,7 @@ export class CisGraphWidget extends Widget {
         this.graph.endTransaction('randomgraph');
     }
     
-    addedge(outNodeID: any = null) {
+    addedge = (outNodeID: any = null) => {
         var nodes = this.graph.nodes;
         var len = nodes.length;
         if ( len<1 ) { return; }
@@ -182,20 +143,16 @@ export class CisGraphWidget extends Widget {
         return newEdge;
       }
     
-    render() {
+    render = () => {
+        var editor = document.getElementById('jp-graph');
         var props = {
             readonly: false,
-            height: 600, // window.innerHeight,
-            width: 800, // window.innerWidth,
+            height: /*editor ? editor.parentElement.clientHeight :*/ 600,
+            width: /*editor ? editor.parentElement.clientWidth :*/ 800,
             graph: this.graph,
             library: this.library,
         };
-        //console.log('render', props);
-        var editor = document.getElementById('jp-graph');
-        if (editor) {
-            editor['width'] = props.width;
-            editor['height'] = props.height;
-        }
+        console.log('rendering graph', props);
         var element = React.createElement(TheGraph.App, props);
         ReactDOM.render(element, editor);
     }
@@ -203,7 +160,4 @@ export class CisGraphWidget extends Widget {
     onUpdateRequest(msg: Message): void {
         this.render();
     }
-
-
-
 }

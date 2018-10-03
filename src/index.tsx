@@ -14,11 +14,11 @@ import {
     Widget
 } from '@phosphor/widgets';
 
+import 'the-graph/themes/the-graph-dark.css';
+import 'font-awesome/css/font-awesome.css';
 import '../style/index.css';
 
 import {CisGraphWidget} from "./graph_widget";
-
-import 'the-graph/themes/the-graph-dark.css';
 
 /**
  * Activate the Incore Data widget extension.

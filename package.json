@@ -37,7 +37,8 @@
     "@phosphor/coreutils": "^1.3.0",
     "@phosphor/messaging": "^1.2.2",
     "@phosphor/widgets": "^1.6.0",
-    "the-graph": "git+https://github.com/bodom0015/the-graph.git#master"
+    "font-awesome": "^4.7.0",
+    "the-graph": "^0.12.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
