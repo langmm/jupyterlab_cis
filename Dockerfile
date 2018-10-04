@@ -31,8 +31,8 @@ RUN jupyter labextension install
 
 # Add documentation last
 COPY Dockerfile README.md ./
-#WORKDIR /home/jovyan
+WORKDIR /home/jovyan
 
 # Enable nbgitpuller extension
-RUN pip install nbgitpuller && \
+RUN pip install nbgitpuller cis_interface && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
