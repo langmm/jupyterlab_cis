@@ -1,4 +1,4 @@
-FROM ndslabs/jupyterlab 
+FROM ndslabs/jupyterlab:0.34.10
 
 USER root
 
@@ -28,6 +28,11 @@ COPY tsconfig.json .
 # Perform TypeScript compile and install extension
 RUN npm install -g typescript
 RUN jupyter labextension install
+
+# Set up Cy-JupyterLab extension
+RUN git clone https://github.com/idekerlab/cy-jupyterlab -b 0.1.0 /home/jovyan/work/cy-jupyterlab
+WORKDIR /home/jovyan/work/cy-jupyterlab
+RUN ls -al && jupyter labextension install
 
 # Add documentation last
 COPY Dockerfile README.md ./
