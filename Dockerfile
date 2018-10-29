@@ -30,7 +30,8 @@ RUN npm install -g typescript
 RUN jupyter labextension install
 
 # Set up Cy-JupyterLab extension
-RUN git clone https://github.com/idekerlab/cy-jupyterlab -b 0.1.0 /home/jovyan/work/cy-jupyterlab
+RUN git clone https://github.com/idekerlab/cy-jupyterlab /home/jovyan/work/cy-jupyterlab && \
+    git reset --hard cbb12372f9f108d2329a56aeac3d32aaf4440c33
 WORKDIR /home/jovyan/work/cy-jupyterlab
 RUN ls -al && jupyter labextension install
 
