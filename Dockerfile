@@ -4,7 +4,7 @@ USER root
 
 # Install OS dependencies
 RUN apt-get update && \
-    apt-get install -y curl sudo
+    apt-get install -y curl sudo screen vim
 
 # Install NodeJS and NPM
 RUN wget https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
@@ -30,16 +30,21 @@ RUN npm install -g typescript
 RUN jupyter labextension install
 
 # Set up Cy-JupyterLab extension
-RUN git clone https://github.com/idekerlab/cy-jupyterlab -b 0.1.0 /home/jovyan/work/cy-jupyterlab
+RUN git clone https://github.com/idekerlab/cy-jupyterlab /home/jovyan/work/cy-jupyterlab
 WORKDIR /home/jovyan/work/cy-jupyterlab
-RUN ls -al && jupyter labextension install
+RUN git reset --hard cbb12372f9f108d2329a56aeac3d32aaf4440c33 && \
+    jupyter labextension install
+
+# Set up Plotly JupyterLab extension
+RUN jupyter labextension install @jupyterlab/plotly-extension
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
 # Add documentation last
 COPY Dockerfile README.md ./
 WORKDIR /home/jovyan
 
 # Enable nbgitpuller extension
-RUN pip install nbgitpuller cis_interface && \
+RUN pip install nbgitpuller cis_interface ipywidgets plotly networkx && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Add future MATLAB location to our PATH
