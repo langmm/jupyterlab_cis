@@ -41,3 +41,6 @@ WORKDIR /home/jovyan
 # Enable nbgitpuller extension
 RUN pip install nbgitpuller cis_interface && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
+
+# Add future MATLAB location to our PATH
+ENV PATH=/usr/local/matlab/bin/:$PATH
