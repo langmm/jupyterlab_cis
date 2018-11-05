@@ -47,7 +47,7 @@ class CisWidget extends Widget {
     this.iframe.width = '100%';
     this.iframe.height = '100%';
     this.node.appendChild(this.iframe);
-    this.iframe.src = 'https://dev.cis.ndslabs.org/#/';
+    this.iframe.src = 'https://dev.cis-iu.ndslabs.org/#/';
   }
 
   // The iframe element associated with the widget.
