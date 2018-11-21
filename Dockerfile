@@ -10,13 +10,18 @@ RUN apt-get update && \
 RUN wget https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
     sudo apt-get install -y nodejs npm
 
-# Set up plugin working directory
 USER jovyan
+
+# Set up common JupyterLab extensions
+RUN jupyter labextension install @jupyterlab/plotly-extension @jupyterlab/launcher-extension @jupyter-widgets/jupyterlab-manager @jupyterlab/hub-extension
+
+# Set up plugin working directory
 ENV SRCDIR="/home/jovyan/work/jupyterlab_cis"
 RUN mkdir -p $SRCDIR
 WORKDIR $SRCDIR
 
 # Install NPM dependencies
+RUN npm install -g typescript
 COPY package.json .
 RUN npm install
 
@@ -26,7 +31,6 @@ COPY style/* ./style/
 COPY tsconfig.json .
 
 # Perform TypeScript compile and install extension
-RUN npm install -g typescript
 RUN jupyter labextension install
 
 # Set up Cy-JupyterLab extension
@@ -34,10 +38,6 @@ RUN git clone https://github.com/idekerlab/cy-jupyterlab /home/jovyan/work/cy-ju
 WORKDIR /home/jovyan/work/cy-jupyterlab
 RUN git reset --hard cbb12372f9f108d2329a56aeac3d32aaf4440c33 && \
     jupyter labextension install
-
-# Set up Plotly JupyterLab extension
-RUN jupyter labextension install @jupyterlab/plotly-extension
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
 # Add documentation last
 COPY Dockerfile README.md ./

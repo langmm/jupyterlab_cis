@@ -70,7 +70,8 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
 
   // Add an application command
   app.commands.addCommand('cis:open-model-composer', {
-    label: 'Show Model Composer',
+    label: 'Model Composer',
+    iconClass: 'jp-VegaIcon',
     execute: () => {
       if (!widget) {
         // Create a new widget if one does not exist
@@ -93,18 +94,8 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
     }
   });
 
-  // Add an application command
-  /*app.commands.addCommand('cis:execute-graph-from-clipboard', {
-    label: 'Execute Graph from Clipboard',
-    execute: () => {
-      let clipboardContents = "asdf"
-      console.log("Executing graph: ", clipboardContents);
-    }
-  });*/
-
   // Add commands to the palette.
   palette.addItem({ command: 'cis:open-model-composer', category: 'Crops in Silico' });
-  //palette.addItem({ command: 'cis:execute-graph-from-clipboard', category: 'Crops in Silico' });
 
   // Add a launcher item if the launcher is available
   if (launcher) { 
