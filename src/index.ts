@@ -31,6 +31,7 @@ import {
 } from '@phosphor/widgets';
 
 import '../style/index.css';
+import { iframe_url } from './config';
 
 /**
  * A Crops in Silico Model Composer.
@@ -49,7 +50,7 @@ class CisWidget extends Widget {
     this.iframe.width = '100%';
     this.iframe.height = '100%';
     this.node.appendChild(this.iframe);
-    this.iframe.src = 'https://dev.cis.ndslabs.org/#/';
+    this.iframe.src = iframe_url;
   }
 
   // The iframe element associated with the widget.
