@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # Replace config.url with env var
-echo "export const iframe_url = \"${IFRAME_SRC_URL}\"" > "$SRCDIR/src/config.js"
-
-# Rebuild extension
-cd $SRCDIR
-jupyter labextension install
+for file in `find /opt/conda/share/jupyter/lab/static -type f -exec grep "cis-tacc" {} + | cut -f1 -d:`
+do 
+    echo $file
+    sed "s?https\:\/\/dev\.cis-tacc\.ndslabs\.org?${IFRAME_SRC_URL}?g" -i $file
+done
 
 # Start JupyterLab
-cd /home/jovyan
 jupyter lab
