@@ -44,7 +44,7 @@ COPY Dockerfile README.md ./
 WORKDIR /home/jovyan
 
 # Enable nbgitpuller extension
-RUN pip install nbgitpuller yggdrasil ipywidgets matlab_kernel plotly networkx && \
+RUN pip install nbgitpuller yggdrasil-framework ipywidgets matlab_kernel plotly networkx && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
 
 # Add future MATLAB location to our PATH
