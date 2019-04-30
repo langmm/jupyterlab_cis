@@ -6,6 +6,8 @@ import {
   ICommandPalette, InstanceTracker//, ToolbarButton
 } from '@jupyterlab/apputils';
 
+import { ILauncher } from '@jupyterlab/launcher';
+
 /*
 import {
   NotebookActions, NotebookPanel, INotebookModel
@@ -47,7 +49,7 @@ class CisWidget extends Widget {
     this.iframe.width = '100%';
     this.iframe.height = '100%';
     this.node.appendChild(this.iframe);
-    this.iframe.src = 'https://dev.cis-iu.ndslabs.org/#/';
+    this.iframe.src = 'https://dev.cis.ndslabs.org/#/';
   }
 
   // The iframe element associated with the widget.
@@ -58,7 +60,7 @@ class CisWidget extends Widget {
 };
 
 
-function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRestorer) {
+function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRestorer, launcher: ILauncher) {
   console.log('JupyterLab extension jupyterlab_cis is activated!');
 
   // Declare a widget variable
@@ -68,7 +70,8 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
 
   // Add an application command
   app.commands.addCommand('cis:open-model-composer', {
-    label: 'Show Model Composer',
+    label: 'Model Composer',
+    iconClass: 'jp-VegaIcon',
     execute: () => {
       if (!widget) {
         // Create a new widget if one does not exist
@@ -90,20 +93,21 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
       app.shell.activateById(widget.id);
     }
   });
-  
-    // Add an application command
-  /*app.commands.addCommand('cis:execute-graph-from-clipboard', {
-    label: 'Execute Graph from Clipboard',
-    execute: () => {
-      let clipboardContents = "asdf"
-      console.log("Executing graph: ", clipboardContents);
-    }
-  });*/
 
   // Add commands to the palette.
   palette.addItem({ command: 'cis:open-model-composer', category: 'Crops in Silico' });
-  //palette.addItem({ command: 'cis:execute-graph-from-clipboard', category: 'Crops in Silico' });
 
+  // Add a launcher item if the launcher is available
+  if (launcher) { 
+    launcher.add({ 
+      command: 'cis:open-model-composer', 
+      category: 'Crops in Silico', 
+      rank: 0 
+    }); 
+  } else {
+    console.log('No launcher found... skipping adding launcher icon');
+  }
+  
   // Track and restore the widget state
   let tracker = new InstanceTracker<Widget>({ namespace: 'cis' });
   restorer.restore(tracker, {
@@ -118,7 +122,7 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
 const extension: JupyterLabPlugin<void> = {
   id: 'jupyterlab_cis',
   autoStart: true,
-  requires: [ICommandPalette, ILayoutRestorer],
+  requires: [ICommandPalette, ILayoutRestorer, ILauncher],
   activate: activate
 };
 
