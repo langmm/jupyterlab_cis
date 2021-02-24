@@ -1,10 +1,10 @@
 import {
-  JupyterLab, JupyterLabPlugin, ILayoutRestorer
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin,
+  ILayoutRestorer
 } from '@jupyterlab/application';
 
-import {
-  ICommandPalette, InstanceTracker//, ToolbarButton
-} from '@jupyterlab/apputils';
+import { ICommandPalette, WidgetTracker } from '@jupyterlab/apputils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
@@ -18,17 +18,9 @@ import {
 } from '@jupyterlab/docregistry';
 */
 
-import {
-  JSONExt
-} from '@phosphor/coreutils';
+import { JSONExt } from '@lumino/coreutils';
 
-import {
-  Message
-} from '@phosphor/messaging';
-
-import {
-  Widget
-} from '@phosphor/widgets';
+import { Widget } from '@lumino/widgets';
 
 import '../style/index.css';
 
@@ -54,19 +46,18 @@ class CisWidget extends Widget {
 
   // The iframe element associated with the widget.
   readonly iframe: HTMLIFrameElement;
+}
 
-  onUpdateRequest(msg: Message): void {
-  }
-};
-
-
-function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRestorer, launcher: ILauncher) {
+function activate(
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  restorer: ILayoutRestorer,
+  launcher: ILauncher
+): void {
   console.log('JupyterLab extension jupyterlab_cis is activated!');
 
   // Declare a widget variable
   let widget: CisWidget;
-  
-  
 
   // Add an application command
   app.commands.addCommand('cis:open-model-composer', {
@@ -84,7 +75,7 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
       }
       if (!widget.isAttached) {
         // Attach the widget to the main work area if it's not there
-        app.shell.addToMainArea(widget);
+        app.shell.add(widget, 'main');
       } else {
         // Refresh the comic in the widget
         widget.update();
@@ -95,31 +86,33 @@ function activate(app: JupyterLab, palette: ICommandPalette, restorer: ILayoutRe
   });
 
   // Add commands to the palette.
-  palette.addItem({ command: 'cis:open-model-composer', category: 'Crops in Silico' });
+  palette.addItem({
+    command: 'cis:open-model-composer',
+    category: 'Crops in Silico'
+  });
 
   // Add a launcher item if the launcher is available
-  if (launcher) { 
-    launcher.add({ 
-      command: 'cis:open-model-composer', 
-      category: 'Crops in Silico', 
-      rank: 0 
-    }); 
+  if (launcher) {
+    launcher.add({
+      command: 'cis:open-model-composer',
+      category: 'Crops in Silico',
+      rank: 0
+    });
   } else {
     console.log('No launcher found... skipping adding launcher icon');
   }
-  
+
   // Track and restore the widget state
-  let tracker = new InstanceTracker<Widget>({ namespace: 'cis' });
+  const tracker = new WidgetTracker<Widget>({ namespace: 'cis' });
   restorer.restore(tracker, {
     command: 'cis:open-model-composer',
     args: () => JSONExt.emptyObject,
     name: () => 'cis'
   });
-};
-
+}
 
 //Initialization data for the jupyterlab_cis extension.
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
   id: 'jupyterlab_cis',
   autoStart: true,
   requires: [ICommandPalette, ILayoutRestorer, ILauncher],
