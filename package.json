@@ -2,7 +2,10 @@
   "name": "jupyterlab_cis",
   "version": "0.0.1",
   "description": "JupyterLab extension to support creating graphs for the Crops in Silico project.",
-  "author": "Mike Lambert",
+  "author": {
+    "name": "Mike Lambert",
+    "email": "lambert8@illinois.edu"
+  },
   "keywords": [
     "jupyter",
     "jupyterlab",
