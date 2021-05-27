@@ -1,4 +1,7 @@
 #!/bin/bash
 
+jlpm
+jlpm run eslint:check
+python -m pip install .
 # Install a JupyterLab extension for demonstration purposes
-jupyter labextension install
+# jupyter labextension install
