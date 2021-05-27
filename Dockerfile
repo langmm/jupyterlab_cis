@@ -20,7 +20,7 @@ RUN wget https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
 USER jovyan
 
 # Set up common JupyterLab extensions
-RUN jupyter labextension install @jupyterlab/plotly-extension @jupyterlab/launcher-extension @jupyter-widgets/jupyterlab-manager @jupyterlab/hub-extension
+RUN jupyter labextension install jupyterlab-plotly@4.14.3 @jupyterlab/launcher-extension @jupyter-widgets/jupyterlab-manager @jupyterlab/hub-extension
 
 # Set up plugin working directory
 ENV SRCDIR="/home/jovyan/work/jupyterlab_cis"
